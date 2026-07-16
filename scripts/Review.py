@@ -2,19 +2,14 @@ import subprocess
 import os
 import smtplib
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+from google import genai
 from email.mime.text import MIMEText
 
 # Load environment variables
 load_dotenv()
 
 # Initialize Gemini model
-model = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash-lite",
-    google_api_key=os.getenv("GEMINI_API_KEY"),
-    temperature=0.2,
-    max_output_tokens=500,
-)
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 
 def send_email(body):
@@ -36,7 +31,7 @@ def main():
     try:
         # Get latest commit changes
         diff = subprocess.check_output(
-            ["git", "show", "HEAD"],
+            ["git", "show", "--format=", "HEAD"],
             text=True
         )
 
@@ -45,40 +40,45 @@ def main():
             return
 
         prompt = f"""
-                    You are an expert Python code reviewer.
+                    You are a senior Python software engineer.
 
                     Review the following Git diff.
 
                     Return ONLY valid HTML.
 
-                    The HTML should contain:
+                    The HTML must include:
 
                     <h1>Python Code Review</h1>
 
                     <h2>Summary</h2>
 
+                    <h2>Strengths</h2>
+
                     <h2>Bugs Found</h2>
 
-                    <h2>Code Quality</h2>
-
-                    <h2>Performance</h2>
-
                     <h2>Security Issues</h2>
+
+                    <h2>Performance Improvements</h2>
+
+                    <h2>Code Quality</h2>
 
                     <h2>Suggestions</h2>
 
                     <h2>Overall Rating (/10)</h2>
 
-                    Do NOT return Markdown.
-                    Do NOT wrap the HTML in triple backticks.
+                    Do not use Markdown.
+                    Do not wrap the HTML in ```.
 
                     Git Diff:
 
                     {diff}
                 """
 
-        response = model.invoke(prompt)
-        send_email(response.content)
+        response = client.models.generate_content(
+                    model="gemini-flash-latest",
+                    contents=prompt
+                )
+        send_email(response.text)
 
         print("✅ Code review email sent successfully!")
 
