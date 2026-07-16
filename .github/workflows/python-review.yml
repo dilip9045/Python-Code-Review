@@ -4,22 +4,24 @@ on:
   push:
     branches : [ "main" ]
 
-permission : 
+permissions : 
       contents : read
 
 jobs:
   
   review:
 
+      runs-on: ubuntu-latest
+
       steps: 
-        -uses : action/checkout@v4
-        -uses : action/setup-python@v4
-        with:
+        - uses : actions/checkout@v4
+        - uses : actions/setup-python@v4
+          with:
             python-version : "3.12"
-        -name : Install Dependencies
-        run : pip install -r requirments.txt
-        -name : Run Review Script
-        run : python ./scripts/Review.py
+        - name : Install Dependencies
+          run : pip install -r requirements.txt
+        - name : Run Review Script
+          run : python ./scripts/Review.py
 
 
 
