@@ -1,8 +1,8 @@
 import subprocess
 
 def main():
-    diff = subprocess.check_output('diff', 'show' , text = True)
-    
-    print("hello world")
-    
+    diff = subprocess.check_output(["git", "diff"],text=True)
+
+    print(diff)
+
 main()
