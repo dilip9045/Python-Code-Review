@@ -13,8 +13,8 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 
 def send_email(body):
-    sender_email = "dilip.sisodiya_cs23@gla.ac.in"
-    receiver_email = "dilip.sisodiya_cs23@gla.ac.in"
+    sender_email = "desdeepak42@gmail.com"
+    receiver_email = "desdeepak42@gmail.com"
 
     msg = MIMEText(body, "html")
     msg["Subject"] = "Code Review Feedback"
