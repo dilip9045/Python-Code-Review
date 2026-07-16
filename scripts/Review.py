@@ -15,7 +15,6 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 def send_email(body):
     sender_email = "desdeepak42@gmail.com"
     receiver_email = "desdeepak42@gmail.com"
-
     msg = MIMEText(body, "html")
     msg["Subject"] = "Code Review Feedback"
     msg["From"] = sender_email
@@ -40,39 +39,112 @@ def main():
             return
 
         prompt = f"""
-                    You are a senior Python software engineer.
-
+                    You are a Senior Software Engineer.
+                    
                     Review the following Git diff.
-
-                    Return ONLY valid HTML.
-
-                    The HTML must include:
-
+                    
+                    Return ONLY a complete HTML document.
+                    
+                    Requirements:
+                    
+                    - Beautiful modern email design.
+                    - White background.
+                    - Rounded card.
+                    - Use inline CSS only.
+                    - Font: Arial, Helvetica, sans-serif.
+                    
+                    Use these colors:
+                    
+                    Primary:
+                    #2563EB
+                    
+                    Success:
+                    #16A34A
+                    
+                    Warning:
+                    #F59E0B
+                    
+                    Error:
+                    #DC2626
+                    
+                    Background:
+                    #F8FAFC
+                    
+                    Headings should have colored left borders.
+                    
+                    Format exactly like this:
+                    
                     <h1>Python Code Review</h1>
-
-                    <h2>Summary</h2>
-
-                    <h2>Strengths</h2>
-
-                    <h2>Bugs Found</h2>
-
-                    <h2>Security Issues</h2>
-
-                    <h2>Performance Improvements</h2>
-
-                    <h2>Code Quality</h2>
-
-                    <h2>Suggestions</h2>
-
-                    <h2>Overall Rating (/10)</h2>
-
-                    Do not use Markdown.
-                    Do not wrap the HTML in ```.
-
+                    
+                    Summary
+                    
+                    Strengths
+                    
+                    Bugs Found
+                    
+                    Security Issues
+                    
+                    Performance Improvements
+                    
+                    Code Quality
+                    
+                    Suggestions
+                    
+                    Overall Rating (/10)
+                    
+                    Styling rules:
+                    
+                    • Main title inside a blue banner.
+                    
+                    • Summary section
+                    Blue heading.
+                    
+                    • Strengths
+                    Green heading with ✓ icons.
+                    
+                    • Bugs Found
+                    Red heading with ❌ icons.
+                    
+                    • Security Issues
+                    Dark red heading with 🔒 icons.
+                    
+                    • Performance
+                    Orange heading with ⚡ icons.
+                    
+                    • Code Quality
+                    Purple heading with 📘 icons.
+                    
+                    • Suggestions
+                    Blue heading with 💡 icons.
+                    
+                    • Overall Rating
+                    
+                    Display rating inside a colored badge:
+                    
+                    9-10 = Green
+                    
+                    7-8 = Orange
+                    
+                    Below 7 = Red
+                    
+                    Use:
+                    
+                    - Cards
+                    - Borders
+                    - Padding
+                    - Shadows
+                    - Tables if needed
+                    - Bullet lists
+                    - Nice spacing
+                    
+                    Do NOT return markdown.
+                    
+                    Do NOT wrap HTML inside ```.
+                    
                     Git Diff:
-
+                    
                     {diff}
-                """
+                    """
 
         response = client.models.generate_content(
                     model="gemini-flash-latest",
