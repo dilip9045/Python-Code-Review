@@ -1,0 +1,25 @@
+name : Python Code Review
+
+on:
+  push:
+    branches : [ "main" ]
+
+permission : 
+      contents : read
+
+jobs:
+  
+  review:
+
+      steps: 
+        -uses : action/checkout@v4
+        -uses : action/setup-python@v4
+        with:
+            python-version : "3.12"
+        -name : Install Dependencies
+        run : pip install -r requirments.txt
+        -name : Run Review Script
+        run : python ./scripts/Review.py
+
+
+
