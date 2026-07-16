@@ -13,6 +13,11 @@ jobs:
 
       runs-on: ubuntu-latest
 
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        PYTHON_APP: ${{ secrets.PYTHON_APP }}
+        TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+
       steps: 
         - uses : actions/checkout@v4
         - uses : actions/setup-python@v4
